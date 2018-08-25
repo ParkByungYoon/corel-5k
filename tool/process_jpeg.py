@@ -1,5 +1,5 @@
 import os
-from data_augmentation import DataAugmentation
+from tool.data_up.data_augmentation import DataAugmentation
 
 def change_jpeg(root,save_path):
     for _, no, files in os.walk(root):

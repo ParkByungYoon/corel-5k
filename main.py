@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from tool import dataset
-from tool import data_augmentation
+from tool.data_up import data_augmentation
 from tool import process_jpeg
 
 LR=0.0001
@@ -24,21 +24,21 @@ train_transform=transforms.Compose([
     transforms.RandomCrop((128,192),padding=8),
     #transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    transforms.Normalize(
+    # transforms.Normalize(
 
-    )
+    # )
 ])
 test_transform=transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize(
+    # transforms.Normalize(
 
-    )
+    # )
 ])
 
 #训练集
 train_dataset = dataset.NPSET(root=root, data_transform=train_transform, train=True)
-train_datalodar=Data.DataLoader(dataset=train_dataset,batch_size=BATCH_SIZE.shuffle=True,num_workers=2)
+train_datalodar=Data.DataLoader(dataset=train_dataset,batch_size=BATCH_SIZE,shuffle=True,num_workers=2)
 
 #测试集
 test_dataset = dataset.NPSET(root=root, data_transform=test_transform, train=False)
-test_datalodar = Data.DataLoader(dataset=test_dataset, batch_size=BATCH_SIZE.shuffle=True, num_workers=2)
+test_datalodar = Data.DataLoader(dataset=test_dataset, batch_size=BATCH_SIZE,shuffle=True, num_workers=2)
