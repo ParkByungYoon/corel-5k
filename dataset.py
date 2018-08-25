@@ -3,7 +3,7 @@ import re
 import torch
 import numpy as np
 from PIL import Image
-
+from torch.utils.data import Dataset
 
 def combine(path):
     #label_file_path:label文件的路径
@@ -19,7 +19,8 @@ def combine(path):
             a.append(match)
     return a
 
-class NPSET(torch.utils.data.Dataset):
+
+class NPSET(Dataset):
 
     def __init__(self, root, data_transform=None, train=None):
         self.picroot = root
@@ -44,8 +45,7 @@ class NPSET(torch.utils.data.Dataset):
         self.dataset = imgs
         self.labels = combine(label_path)
         self.len = a
-        print(self.labels)
-        print(self.dataset)
+
 
     def code_to_vec(self, p, code):
         def char_to_vec(c):
@@ -65,4 +65,4 @@ class NPSET(torch.utils.data.Dataset):
     def __len__(self):
         return self.len
 
-a=NPSET(root='./',data_transform=None,train=False)   
+
