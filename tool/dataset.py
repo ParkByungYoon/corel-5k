@@ -33,15 +33,18 @@ class NPSET(Dataset):
         else:
             jpegs_path = os.path.join(self.picroot, 'process_test_jpeg/')
             label_path = os.path.join(self.picroot, 'labels/test_label')
-        imgs = []
         a = 0
-        with open(label_path, 'r') as file:
-            for line in file.readlines():
-                jpeg_name = line.split(' ')[0]+'.jpeg'
-                jpeg_path = os.path.join(jpegs_path, jpeg_name)
-                image = Image.open(jpeg_path).convert('RGB')
-                imgs.append(image)
-            a = len(file.readlines())
+        imgs = []
+        file=open(label_path, 'r')
+        c = file.readlines()
+        a = len(c)
+        for line in c:
+            jpeg_name = line.split(' ')[0]+'.jpeg'
+            jpeg_path = os.path.join(jpegs_path, jpeg_name)
+            image = Image.open(jpeg_path).convert('RGB')
+            imgs.append(image)
+        #print(len(imgs))
+        file.close()
         self.dataset = imgs
         self.labels = combine(label_path)
         self.len = a
@@ -49,13 +52,14 @@ class NPSET(Dataset):
 
     def code_to_vec(self, p, code):
         def char_to_vec(c):
-            y = np.zeros((374,))
+            y = np.zeros((375,))
             y[c] = 1.0
             return y
         c = np.vstack([char_to_vec(c) for c in code])
         return c.flatten()
 
     def __getitem__(self, index):
+        #print(self.dataset)
         label, img = self.labels[index], self.dataset[index]
         if self.data_transform is not None:
             img = self.data_transform(img)
