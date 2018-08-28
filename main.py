@@ -1,4 +1,5 @@
 # coding=utf-8
+print(1)
 import math
 
 import numpy as np
@@ -77,7 +78,7 @@ test_dataset = dataset.NPSET(root=root, data_transform=test_transform, train=Fal
 test_datalodar = Data.DataLoader(dataset=test_dataset, batch_size=BATCH_SIZE,shuffle=True, num_workers=2)
 
 
-
+print(2)
 j=0  #判断是初始化还是读取模型
 def train(epoch):
     global j
@@ -86,6 +87,7 @@ def train(epoch):
         net=Resnet.SeResNet164()
     else:
         net=torch.load('VGGnet.pkl')
+    print(3)
     for i in range(kfold):
         valid, train = tra_and_val(trainset=train_dataset, begin=int(
             i * train_dataset.__len__() / kfold), kfold=kfold)  # 训练集与验证集
@@ -144,5 +146,5 @@ def train(epoch):
     j+=1
 
 
-for epoch in range(EPOCH):
-    train(epoch)
+#for epoch in range(EPOCH):
+train(1)
