@@ -50,7 +50,7 @@ def tra_and_val(trainset, begin, kfold):
     return valid, train
 
 
-
+j = 0  # 判断是初始化还是读取模型
 def train(epoch):
     global j
     global best_acc
@@ -122,39 +122,36 @@ def train(epoch):
 
 # for epoch in range(EPOCH):
 if __name__ == '__main__':
-    print(1)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(2)
+
+
     EPOCH=50
     LR=0.0001
     BATCH_SIZE=4
     kfold=9
     best_acc=0
     root='./'
-    train_transform=transforms.Compose([
-    transforms.RandomCrop((128,192),padding=8),
-    #transforms.RandomHorizontalFlip(),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        (0.5049, 0.5524, 0.4342), (0.3692, 0.3545, 0.3728)
-    )
+    
+
+    train_transform = transforms.Compose([
+        transforms.RandomCrop((128, 192), padding=8),
+        #transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize(
+            (0.5049, 0.5524, 0.4342), (0.3692, 0.3545, 0.3728)
+        )
     ])
-    print(3)
     test_transform=transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize(
             (0.4989, 0.5541, 0.4327), (0.3666, 0.3544, 0.3725)
         )
     ])
-    print(4)
+
     #训练集
     train_dataset = dataset.NPSET(root=root, data_transform=train_transform, train=True)
-    print(5)
     #测试集
     test_dataset = dataset.NPSET(root=root, data_transform=test_transform, train=False)
     test_datalodar = Data.DataLoader(dataset=test_dataset, batch_size=BATCH_SIZE,shuffle=True, num_workers=2)
 
-    print(6)
-
-    j=0  #判断是初始化还是读取模型
     train(1)
