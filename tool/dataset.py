@@ -37,12 +37,14 @@ class NPSET(Dataset):
         imgs = []
         file=open(label_path, 'r')
         c = file.readlines()
-        a = len(c)
         for line in c:
             jpeg_name = line.split(' ')[0]+'.jpeg'
             jpeg_path = os.path.join(jpegs_path, jpeg_name)
             image = Image.open(jpeg_path).convert('RGB')
             imgs.append(image)
+            a+=1
+            if a>=1500:
+                break
         #print(len(imgs))
         file.close()
         self.dataset = imgs
@@ -51,12 +53,16 @@ class NPSET(Dataset):
 
 
     def code_to_vec(self, p, code):
-        def char_to_vec(c):
-            y = np.zeros((375,))
-            y[c] = 1.0
-            return y
-        c = np.vstack([char_to_vec(c) for c in code])
-        return c.flatten()
+        # def char_to_vec(c):
+        #     y = np.zeros((375,), dtype='long')
+        #     y[c] = 1
+        #     return y
+        # c = np.vstack([char_to_vec(c) for c in code])
+        # return c.flatten()
+        ｃ=[0]*375
+        for i in code:
+            c[i]=1
+        return c
 
     def __getitem__(self, index):
         #print(self.dataset)
@@ -68,5 +74,3 @@ class NPSET(Dataset):
 
     def __len__(self):
         return self.len
-
-
